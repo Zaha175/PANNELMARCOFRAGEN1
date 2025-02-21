@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPU Fragen & Antworten Panel</title>
+    <!-- Google Fonts für Orbitron -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #000;
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #00ffe0;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5em 1em;
+            border-bottom: 2px solid #00ffff;
+            background-color: #050505;
+        }
+
+        .system-indicator {
+            display: flex;
+            align-items: center;
+        }
+        .system-indicator .label {
+            margin-right: 0.5em;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .status-green {
+            color: #0f0;
+        }
+
+        .controls button {
+            margin-left: 0.5em;
+            background: transparent;
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 0.3em 0.6em;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .controls button:hover {
+            background: #00ffff;
+            color: #000;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            height: calc(100vh - 50px);
+        }
+
+        .content-area {
+            width: 100%;
+            padding: 1em;
+            position: relative;
+        }
+
+        .mpu-fragen-log {
+            position: relative;
+            margin: 0 auto;
+            background: linear-gradient(to bottom, #050515, #000000);
+            padding: 20px;
+            border: 2px solid #00ffff;
+            height: 80vh;
+            overflow-y: auto;
+            font-size: 0.9em;
+            text-align: left;
+            box-shadow: 0 0 10px #00ffff;
+        }
+
+        .mpu-fragen-log::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 0;
+        }
+
+        .mpu-fragen-log * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .mpu-fragen-log h3 {
+            color: #00ffff;
+            margin-top: 0;
+            text-shadow: 0 0 5px #00ffff;
+            border-bottom: 1px solid #00ffff;
+            padding-bottom: 0.5em;
+        }
+
+        p.question {
+            font-weight: bold;
+            color: #f8f8ff;
+            text-shadow: 0 0 2px #fff;
+            margin-top: 1.5em;
+            background: transparent;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        p.answer {
+            color: rgba(204, 255, 0, 0.9);
+            text-shadow: 0 0 3px #ccff00;
+            margin-left: 1.5em;
+            background: transparent;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .current-qa {
+            background-color: rgba(0, 90, 120, 0.7);
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 45px #00ffff, inset 0 0 8px rgba(0, 255, 255, 0.5);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        p.question.current-qa {
+            text-shadow: none;
+        }
+
+        p.answer.current-qa {
+            text-shadow: none;
+        }
+
+        /* Stil für Bilder in Antworten */
+        .answer-image {
+            max-width: 70%; /* Maximale Breite, responsive */
+            height: auto;     /* Behält das Seitenverhältnis bei */
+            margin: 0.5em auto;  /* Zentriert horizontal */
+            display: block;      /* Macht das Bild zu einem Block-Element (für Zentrierung) */
+            border: 1px solid #00ffff; /* Optionaler Rahmen */
+            box-shadow: 0 0 5px #00ffff; /* Optionaler Schatten */
+        }
+        #video-wrapper {
+           max-width: 70%;
+           margin: 0.5em auto;
+
+        }
+
+        /*Stil für das Video*/
+        #video-wrapper iframe {
+          width: 100%;
+          height: 400px; /*oder eine fixe Höhe, falls gewünscht*/
+          border: 1px solid #00ffff; /* Optionaler Rahmen */
+          box-shadow: 0 0 5px #00ffff;
+
+       }
+
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="system-indicator">
+            <span class="label">System Status:</span>
+            <span class="status-green">OK</span>
+        </div>
+        <div class="controls">
+            <button id="pauseBtn">PAUZĂ</button>
+            <button id="resumeBtn">MAI DEPARTE</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="content-area">
+            <div class="mpu-fragen-log" id="mpuFragenLog">
+                <h3>PHYSIK Fragen & Antworten</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const mpuFragenLog = document.getElementById('mpuFragenLog');
+
+            const mpuFragenAntworten = [
+                 {
+        "question": "Welche Schale der Elektronenhülle hat die stärkste Bindungsenergie?",
+        "answer": "Die innerste Schale der Elektronenhülle besitzt die am stärksten gebundenen Elektronen."
+    },
+    {
+        "question": "Was passiert mit der Bindungsenergie, wenn die Atomgröße zunimmt?",
+        "answer": "Die Bindungsenergie wird kleiner, je größer die Atome werden."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen Heiz- und Beschleunigungsspannung in einer Röntgenröhre?",
+        "answer": "Die Heizspannung erhitzt die Kathode, um Elektronen freizusetzen, während die Beschleunigungsspannung die Elektronen zur Anode beschleunigt."
+    },
+    {
+        "question": "Welchen Effekt hat die Heizspannung auf das Röntgenspektrum?",
+        "answer": "Die Heizspannung beeinflusst die Anzahl der freigesetzten Elektronen und somit die Intensität des Röntgenspektrums."
+    },
+    {
+        "question": "Welchen Effekt hat die Beschleunigungsspannung auf das Röntgenspektrum?",
+        "answer": "Die Beschleunigungsspannung bestimmt die maximale Energie und somit die minimale Wellenlänge der Röntgenstrahlung."
+    },
+    {
+        "question": "Was passiert mit dem Großteil der Energie der Elektronen in der Röntgenröhre?",
+        "answer": "Der Großteil der Energie der Elektronen wird in Wärme umgewandelt, die an die Anode abgegeben wird."
+    },
+    {
+        "question": "Wie entsteht Bremsstrahlung?",
+        "answer": "Bremsstrahlung entsteht, wenn die Elektronen in der Nähe des Atomkerns der Anode abgebremst werden."
+    },
+    {
+        "question": "Wie entsteht charakteristische Röntgenstrahlung?",
+        "answer": "Charakteristische Röntgenstrahlung entsteht, wenn ein Elektron aus einer inneren Schale herausgeschlagen wird und ein Elektron aus einer äußeren Schale den Platz einnimmt."
+    },
+    {
+        "question": "Welchen Einfluss hat das Anodenmaterial auf die Bremsstrahlung?",
+        "answer": "Das Anodenmaterial beeinflusst die Effizienz der Bremsstrahlungserzeugung."
+    },
+    {
+        "question": "Welchen Einfluss hat das Anodenmaterial auf die charakteristische Röntgenstrahlung?",
+        "answer": "Das Anodenmaterial bestimmt die Energien und Wellenlängen der charakteristischen Röntgenstrahlung."
+    },
+    {
+        "question": "Welchen Einfluss hat die Fokusgröße auf die Bildqualität?",
+        "answer": "Eine kleinere Fokusgröße führt zu einer besseren Bildqualität, aber auch zu einer geringeren Belastbarkeit der Röntgenröhre."
+    },
+    {
+        "question": "Was ist die Aufgabe der Zerfallskonstanten?",
+        "answer": "Die Zerfallskonstante (λ) ist ein Maß dafür, wie wahrscheinlich es ist, dass ein bestimmtes Atom in einem gegebenen Zeitraum zerfällt."
+    },
+    {
+        "question": "Wie lautet die Zerfallsgleichung von Co-60?",
+        "answer": "Die Zerfallsgleichung für Co-60 lautet: \\(^{60}_{27}Co \\rightarrow ^{60}_{28}Ni + e^- + \\bar{\\nu}_e + \\gamma\\)"
+    },
+     {
+        "question": "Wie ist die Formel zur Berechnung kinetischen Energie?",
+        "answer": "Ekin = 1/2 * m * v^2"
+    },
+    {
+        "question": "Was sind die technischen Herausforderungen bei der Erzeugung von Röntgenstrahlen?",
+        "answer": "Hohe Wärmeableitung der Anode, Vakuum in der Röhre, Hochspannungserzeugung, Strahlenabschirmung"
+    },
+    {
+         "question": "Nenne 2 Schalen von denen Elektronen herausgeschlagen werden können, wenn eine Wolfram-Anode mit Elektronen der Energie 50 keV beschossen wird?",
+        "answer": "K-Schale und L-Schale"
+    },
+    {
+         "question": "Was beschreibt das Röntgenspektrum?",
+        "answer": "Das Röntgenspektrum beinhaltet Bremsstrahlung und charakteristische Strahlung"
+    },
+    {
+         "question": "Bei doppeltem Objekt-Bild Abstand im Vergleich zum Fokus-Objekt Abstand, wie ist die Formel zur Berechnung der geometrischen Ungenauigkeit, wenn FOA=30cm und OBA=60cm ist?",
+        "answer": "geometrische Ungenauigkeit = (Fokusgröße * (OBA-FOA))/FOA"
+    },
+    {
+         "question": "In welcher Einheit wird die Aktivität angegeben?",
+        "answer": "MBq"
+    },
+   {
+         "question": "Was ist die Halbwertszeit von Cobaltisotop Co-60?",
+        "answer": "5,3 Jahre"
+    }
+            ];
+
+            let frageAntwortIndex = 0;
+            const delayBetweenEntries = 7000; //Erhöht, wegen Videos
+            let isPaused = false;
+            let currentQAElement = null;
+
+            function addMpuFrageAntwort() {
+                if (isPaused) return;
+
+                if (currentQAElement) {
+                    currentQAElement.classList.remove('current-qa');
+                }
+
+                if (frageAntwortIndex < mpuFragenAntworten.length) {
+                    const qaPair = mpuFragenAntworten[frageAntwortIndex];
+
+                    const frageElement = document.createElement('p');
+                    frageElement.classList.add('question');
+                    frageElement.textContent = qaPair.question;
+                    mpuFragenLog.appendChild(frageElement);
+
+                    frageElement.classList.add('current-qa');
+                    currentQAElement = frageElement;
+
+                    setTimeout(() => {
+                        const antwortElement = document.createElement('p');
+                        antwortElement.classList.add('answer');
+
+                        // Prüfe, ob die Antwort ein Objekt (mit Video/Bild) oder ein String ist
+                        if (typeof qaPair.answer === 'object') {
+                            antwortElement.innerHTML = qaPair.answer.text; // Rendere den Text
+
+                            // Video hinzufügen, falls vorhanden
+                            if (qaPair.answer.video) {
+                                const videoWrapper = document.createElement('div');
+                                videoWrapper.id = "video-wrapper";
+                                const videoIframe = document.createElement('iframe');
+                                videoIframe.width = "560"; // Oder eine andere Größe
+                                videoIframe.height = "315";
+                                videoIframe.src = `https://www.youtube.com/embed/${qaPair.answer.video}`;
+                                videoIframe.title = "YouTube video player";
+                                videoIframe.frameBorder = "0";
+                                videoIframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+                                videoIframe.allowFullscreen = true;
+                                videoWrapper.appendChild(videoIframe);
+                                antwortElement.appendChild(videoWrapper);
+                            }
+
+                            // Bild hinzufügen, falls vorhanden
+                            if (qaPair.answer.image) {
+                                const imageWrapper = document.createElement('div');
+                                imageWrapper.classList.add('image-wrapper');
+                                const imageElement = document.createElement('img');
+                                imageElement.src = qaPair.answer.image;
+                                imageElement.alt = qaPair.answer.altText || "Bild zur Frage"; // Alt-Text, falls vorhanden
+                                imageElement.classList.add('answer-image'); // Füge die CSS-Klasse hinzu
+                                imageWrapper.appendChild(imageElement);
+                                antwortElement.appendChild(imageWrapper);
+
+                            }
+                        } else {
+                            // Wenn die Antwort nur Text ist
+                            antwortElement.innerHTML = qaPair.answer;
+                        }
+
+                        mpuFragenLog.appendChild(antwortElement);
+                        mpuFragenLog.scrollTop = mpuFragenLog.scrollHeight;
+
+                        antwortElement.classList.add('current-qa');
+                        currentQAElement = antwortElement;
+
+                    }, 2000);
+
+                    frageAntwortIndex++;
+                } else {
+                    frageAntwortIndex = 0; // Wieder von vorne beginnen
+                }
+            }
+
+
+            let intervalId = setInterval(addMpuFrageAntwort, delayBetweenEntries);
+
+            const pauseBtn = document.getElementById('pauseBtn');
+            const resumeBtn = document.getElementById('resumeBtn');
+
+            pauseBtn.addEventListener('click', function() {
+                isPaused = true;
+                 if(currentQAElement){
+                  currentQAElement.classList.remove('current-qa');
+                }
+            });
+
+            resumeBtn.addEventListener('click', function() {
+                isPaused = false;
+                addMpuFrageAntwort();
+            });
+
+            addMpuFrageAntwort();
+        });
+    </script>
+</body>
+</html>
