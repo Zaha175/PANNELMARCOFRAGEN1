@@ -188,7 +188,83 @@
             const mpuFragenLog = document.getElementById('mpuFragenLog');
 
             const mpuFragenAntworten = [
-                   {
+                     {
+        "question": "Welche Schale der Elektronenhülle besitzt die am stärksten gebundenen Elektronen?",
+        "answer": "Die innerste Schale, die K-Schale, besitzt die am stärksten gebundenen Elektronen."
+    },
+    {
+        "question": "Wird diese Bindungsenergie größer oder kleiner, je größer die Atome werden?",
+        "answer": "Die Bindungsenergie wird größer, je größer die Ordnungszahl des Atoms ist, da die Kernladung steigt. Allerdings nimmt die Bindungsenergie pro Schale tendenziell ab, wenn die Elektronen weiter vom Kern entfernt sind."
+    },
+    {
+        "question": "Unter welchen Voraussetzungen kann ein Elektron in eine andere Schale springen?",
+        "answer": "Ein Elektron kann in eine höhere Schale springen, wenn es Energie aufnimmt (z. B. durch Absorption eines Photons). Es kann in eine niedrigere Schale springen, wenn es Energie in Form eines Photons oder Auger-Elektrons abgibt."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen der Heizspannung und der Beschleunigungsspannung einer Röntgenröhre?",
+        "answer": "Die Heizspannung erhitzt die Kathode, um Elektronen freizusetzen. Die Beschleunigungsspannung sorgt dafür, dass diese Elektronen in Richtung Anode beschleunigt werden."
+    },
+    {
+        "question": "Welchen Effekt haben die Heizspannung und die Beschleunigungsspannung jeweils auf das Röntgenspektrum?",
+        "answer": "Die Heizspannung beeinflusst die Anzahl der emittierten Elektronen und damit die Intensität der Röntgenstrahlung. Die Beschleunigungsspannung bestimmt die maximale Energie der Röntgenphotonen und beeinflusst damit die Durchdringungsfähigkeit der Strahlung."
+    },
+    {
+        "question": "Welchen prozentualen Anteil ihrer Energie geben die Elektronen in Form von Wärme an die Anode ab, und welcher Anteil wird in Röntgenstrahlen umgewandelt?",
+        "answer": "Etwa 99% der Energie der Elektronen wird in Wärme umgewandelt, während nur etwa 1% in Röntgenstrahlung umgewandelt wird."
+    },
+    {
+        "question": "Wie entsteht Bremsstrahlung? Welchen Einfluss hat das Anodenmaterial?",
+        "answer": "Bremsstrahlung entsteht, wenn schnelle Elektronen in der Anode abgebremst werden und dabei ihre Energie in Form von Röntgenstrahlung abgeben. Das Anodenmaterial beeinflusst die Intensität und das Spektrum der Bremsstrahlung, da schwerere Elemente mit höherer Ordnungszahl eine effizientere Bremsstrahlungserzeugung ermöglichen."
+    },
+    {
+        "question": "Wie entsteht charakteristische Röntgenstrahlung? Welchen Einfluss hat das Anodenmaterial?",
+        "answer": "Charakteristische Röntgenstrahlung entsteht, wenn ein Elektron aus einer inneren Schale der Anode herausgeschlagen wird und ein Elektron aus einer höheren Schale nachrückt, wobei ein Photon mit einer für das Anodenmaterial typischen Energie emittiert wird. Das Anodenmaterial bestimmt die Energie dieser charakteristischen Strahlung, da sie von den Elektronenbindungsenergien des jeweiligen Elements abhängt."
+    },
+    {
+        "question": "Welchen Einfluss haben Fokusgröße und die Abstände der Röntgenquelle bzw. des Detektors vom zu durchleuchtenden Objekt auf die Bildqualität?",
+        "answer": "Eine kleinere Fokusgröße führt zu einer besseren Bildauflösung und geringerer Unschärfe. Ein größerer Abstand zwischen Röntgenquelle und Objekt verbessert die Bildschärfe, während ein größerer Abstand zwischen Objekt und Detektor die Vergrößerung und Unschärfe erhöht."
+    },
+    {
+        "question": "Was sind die technischen Herausforderungen bei der Erzeugung von Röntgenstrahlen?",
+        "answer": "Die wichtigsten Herausforderungen sind die Wärmeentwicklung in der Anode, die Effizienz der Röntgenstrahlungserzeugung, die Strahlenschutzmaßnahmen für das Personal und die Optimierung des Röntgenspektrums für diagnostische oder therapeutische Anwendungen."
+    },
+     {
+        "question": "Was ist der Bildkontrast?",
+        "answer": "Der Bildkontrast beschreibt den Unterschied zwischen hellen und dunklen Bereichen eines Bildes. Ein hoher Kontrast bedeutet große Helligkeitsunterschiede, während ein niedriger Kontrast geringe Unterschiede zeigt."
+    },
+    {
+        "question": "Was sagt das SNR (Signal-Rausch-Verhältnis) aus?",
+        "answer": "Das Signal-to-Noise Ratio (SNR) beschreibt das Verhältnis zwischen dem nützlichen Signal und dem Bildrauschen. Ein höheres SNR bedeutet eine bessere Bildqualität mit weniger Rauschen."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen Absorption und Streuung?",
+        "answer": "Absorption bedeutet, dass ein Photon vollständig von Materie aufgenommen wird und seine gesamte Energie abgibt. Streuung hingegen tritt auf, wenn ein Photon seine Richtung ändert und nur einen Teil seiner Energie abgibt."
+    },
+    {
+        "question": "Welchen Einfluss haben Absorption und Streuung auf die Bildqualität beim Röntgen?",
+        "answer": "Absorption erzeugt Bildkontrast, da dichte Strukturen wie Knochen mehr Strahlung absorbieren. Streuung führt zu Kontrastverlust und Bildrauschen, da Photonen in unerwünschte Richtungen gestreut werden."
+    },
+    {
+        "question": "Wie lautet das Lambert-Beer-Gesetz?",
+        "answer": "Das Lambert-Beer-Gesetz beschreibt die exponentielle Abschwächung von Strahlung in einem Material: I(d) = I_0 * e^(-μd), wobei I(d) die verbleibende Intensität, I_0 die ursprüngliche Intensität, μ der lineare Schwächungskoeffizient und d die Materialdicke ist."
+    },
+    {
+        "question": "Mit welchem anderen Gesetz hat das Lambert-Beer-Gesetz eine Ähnlichkeit?",
+        "answer": "Das Lambert-Beer-Gesetz ähnelt dem Gesetz des radioaktiven Zerfalls, das die exponentielle Abnahme der Anzahl radioaktiver Kerne beschreibt: N(t) = N_0 * e^(-λt)."
+    },
+    {
+        "question": "Was sagt die Halbwertsdicke aus?",
+        "answer": "Die Halbwertsdicke (HWD) ist die Materialdicke, bei der die Intensität der Strahlung auf 50% ihres ursprünglichen Werts reduziert wird."
+    },
+    {
+        "question": "Was sagt der Absorptionskoeffizient aus?",
+        "answer": "Der Absorptionskoeffizient (μ) gibt an, wie stark ein Material Strahlung pro Zentimeter abschwächt. Er hängt von der Materialdichte und der Photonenenergie ab."
+    },
+    {
+        "question": "Was ist der Unterschied zwischen Absorptionskoeffizient und Massenschwächungskoeffizient?",
+        "answer": "Der Absorptionskoeffizient (μ) beschreibt die Schwächung pro Längeneinheit und ist dichteabhängig. Der Massenschwächungskoeffizient (ε) beschreibt die Schwächung pro Masseneinheit und ist dichteunabhängig."
+    },
+   {
         "question": "Welche Schale der Elektronenhülle hat die stärkste Bindungsenergie?",
         "answer": "Die innerste Schale der Elektronenhülle besitzt die am stärksten gebundenen Elektronen."
     },
